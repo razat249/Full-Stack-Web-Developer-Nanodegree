@@ -115,6 +115,7 @@ def swissPairings():
     num = len(result)
     pairing_list = []
     i = 0
+    # while loop for getting the swiss pairin
     while i < num-1:
         pairing_list.append((result[i][0],result[i][1],result[i+1][0],result[i+1][1]))
         i = i + 2
