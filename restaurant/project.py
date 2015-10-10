@@ -14,6 +14,60 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+
+
+
+# List of restaurants
+@app.route('/')
+@app.route('/restaurants/')
+@app.route('/index/')
+def list_restaurants():
+    all_restaurants = session.query(Restaurant).all()
+    return render_template('list_restaurants.html', all_restaurants = all_restaurants)
+
+# Add new Restaurant
+@app.route('/restaurants/new/', methods = ['GET','POST'])
+def new_restaurant():
+    if request.method == 'POST':
+        new_restaurant = Restaurant(name = request.form['name'])
+        session.add(new_restaurant)
+        session.commit()
+        return redirect(url_for('list_restaurants'))
+    else:
+        return render_template('new_restaurant.html')
+
+# Edit name of existing restaurant
+@app.route('/restaurants/<int:restaurant_id>/edit/', methods = ['GET','POST'])
+def edit_restaurant(restaurant_id):
+    if request.method == 'POST':
+        restaurant_to_edit = session.query(Restaurant).filter_by(id = restaurant_id).one()
+        if request.form['name']:
+            restaurant_to_edit.name = request.form['name']
+        session.add(restaurant_to_edit)
+        session.commit()
+        return redirect(url_for('list_restaurants'))
+    else:
+        return render_template('edit_restaurant.html', restaurant_id = restaurant_id)
+
+# Delete the restaurant
+@app.route('/restaurants/<int:restaurant_id>/delete/', methods = ['GET','POST'])
+def delete_restaurant(restaurant_id):
+    if request.method == 'POST':
+        restaurant_to_delete = session.query(Restaurant).filter_by(id = restaurant_id).one()
+        session.delete(restaurant_to_delete)
+        session.commit()
+        return redirect(url_for('list_restaurants'))
+    else:
+        return render_template('delete_restaurant.html',restaurant_id = restaurant_id)
+
+
+
+
+
+
+
+
+
 @app.route('/restaurants/<int:restaurant_id>/')
 def restaurantMenu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
