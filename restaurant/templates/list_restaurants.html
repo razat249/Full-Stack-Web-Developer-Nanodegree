@@ -6,6 +6,21 @@
 </head>
 
 <h1>All Restaurants</h1>
+
+
+<!--MESSAGE FLASHING EXAMPLE -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+
+<ul>
+{% for message in messages %}
+  <br><h2><li><strong>{{message}}</strong></li></h2>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+
 <br>
 <div><a href="{{ url_for('new_restaurant') }}">Add a new Restaurant</a></div>
 <br>

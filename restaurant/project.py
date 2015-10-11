@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
 app = Flask(__name__)
 
 from sqlalchemy import create_engine
@@ -32,6 +32,7 @@ def new_restaurant():
         new_restaurant = Restaurant(name = request.form['name'])
         session.add(new_restaurant)
         session.commit()
+        flash("New Restaurant Created!")  
         return redirect(url_for('list_restaurants'))
     else:
         return render_template('new_restaurant.html')
@@ -45,6 +46,7 @@ def edit_restaurant(restaurant_id):
             restaurant_to_edit.name = request.form['name']
         session.add(restaurant_to_edit)
         session.commit()
+        flash('Restaurant edited!!')
         return redirect(url_for('list_restaurants'))
     else:
         return render_template('edit_restaurant.html', restaurant_id = restaurant_id)
@@ -56,9 +58,12 @@ def delete_restaurant(restaurant_id):
         restaurant_to_delete = session.query(Restaurant).filter_by(id = restaurant_id).one()
         session.delete(restaurant_to_delete)
         session.commit()
+        flash('restaurant deleted!!')
         return redirect(url_for('list_restaurants'))
     else:
         return render_template('delete_restaurant.html',restaurant_id = restaurant_id)
+
+
 
 
 
