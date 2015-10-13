@@ -9,6 +9,7 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+# shelter table
 
 class Shelter(Base):
 	__tablename__ = 'shelter'
@@ -19,6 +20,7 @@ class Shelter(Base):
 	email = Column(String(40))
 	id = Column(Integer, primary_key = True)
 
+# puppy Table
 
 class Puppy(Base):
 	__tablename__ = 'puppy'
