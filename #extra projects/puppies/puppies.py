@@ -28,6 +28,7 @@ class Puppy(Base):
     shelter = relationship(Shelter)
     weight = Column(Numeric(10))
 
+# to add Person table
 
 engine = create_engine('sqlite:///puppyshelter.db')
  
